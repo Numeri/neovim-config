@@ -1,0 +1,8 @@
+# Compiled Lua sources
+luac.out
+
+# Spelling dictionaries
+spell/*
+
+plugin/packer_compiled.lua
+
