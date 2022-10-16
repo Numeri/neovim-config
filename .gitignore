@@ -1,8 +1,11 @@
 # Compiled Lua sources
 luac.out
+.luarc.json
 
 # Spelling dictionaries
 spell/*
 
 plugin/packer_compiled.lua
 
+# Other
+.*
