@@ -46,6 +46,18 @@ keymap("n", "<leader>c", ":noh<CR>", opts)
 -- Jump straight to mark
 keymap("n", "<leader>'", "`", opts)
 
+function ModifyQuickFixList()
+    if vim.opt.modifiable then
+        vim.cmd "cgetbuffer"
+    else
+        vim.opt_local.errorformat = "%f|%l col %c|%m"
+        vim.cmd "set modifiable"
+    end
+end
+
+keymap("n", "mm", "call v:lua.ModifyQuickFixList()<CR>", opts)
+
+
 -- Visual --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)

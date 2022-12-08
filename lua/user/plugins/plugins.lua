@@ -51,6 +51,7 @@ return packer.startup(function(use)
   use "ggandor/leap.nvim"
 
   use "tpope/vim-dispatch" -- Makes testing and compiling with :Make and :Dispatch better
+  use "itchyny/vim-qfedit"
 
   -- Colorschemes
   use "marko-cerovac/material.nvim"
