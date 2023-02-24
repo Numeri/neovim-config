@@ -6,6 +6,13 @@ if not status_ok then
     return
 end
 
+local colors = require "material.colors"
+local c = colors.main
+
+function SyntaxItem()
+  return vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."),vim.fn.col("."),1),"name")
+end
+
 m.setup({
     contrast = {
             terminal = true, -- Enable contrast for the built-in terminal
@@ -65,7 +72,15 @@ m.setup({
 
     custom_colors = nil, -- If you want to everride the default colors, set this to a function
 
-    custom_highlights = {}, -- Overwrite highlights with your own
+    -- Overwrite highlights with your own
+    custom_highlights = {
+        Identifier = {
+            fg = c.white,
+        },
+        ["@field"] = {
+            fg = "#C0C0EE",
+        },
+    },
 })
 
 vim.g.material_style = "darker";

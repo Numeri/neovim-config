@@ -71,6 +71,7 @@ local function lsp_keymaps(bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'v', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>l", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
@@ -79,9 +80,20 @@ local function lsp_keymaps(bufnr)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
 end
 
-M.on_attach = function(client, bufnr)
-  lsp_keymaps(bufnr)
-  lsp_highlight_document(client)
+M.on_attach = function(server)
+    local on_attach_closure = function(client, bufnr)
+        lsp_keymaps(bufnr)
+        lsp_highlight_document(client)
+
+        if server == "pylsp" then
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.hoverProvider = false
+            client.server_capabilities.renameProvider = false
+        elseif server == "pyright" then
+            client.server_capabilities.signatureHelpProvider = false
+        end
+    end
+    return on_attach_closure
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
