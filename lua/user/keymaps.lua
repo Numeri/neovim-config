@@ -57,6 +57,30 @@ end
 
 keymap("n", "mm", "call v:lua.ModifyQuickFixList()<CR>", opts)
 
+function ReplacePairs(line)
+  local pairs = {
+    {"new", "old"},
+    {"src", "tgt"},
+    {"source", "target"},
+    {"input", "output"}
+  }
+
+  local old_line = line
+  for _, pair in ipairs(pairs) do
+    local pattern = pair[1]
+    local replacement = pair[2]
+    line = line:gsub(pattern, replacement)
+    if line == old_line then
+        line = line:gsub(replacement, pattern)
+    end
+  end
+
+  return line
+end
+
+keymap('n', '<leader>z', ':lua vim.fn.setline(".", ReplacePairs(vim.fn.getline(".")))<CR>', { noremap = true, silent = true })
+keymap('v', '<leader>z', ':lua for _, line in ipairs(vim.fn.getline("\'<", "\'>")) do vim.fn.setline(".", ReplacePairs(line)) vim.cmd("normal j") end<CR>', { noremap = true, silent = true })
+
 
 -- Visual --
 -- Stay in indent mode
