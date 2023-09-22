@@ -89,6 +89,7 @@ M.on_attach = function(server)
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.hoverProvider = false
             client.server_capabilities.renameProvider = false
+            client.server_capabilities.definitionProvider = false
         elseif server == "pyright" then
             client.server_capabilities.signatureHelpProvider = false
         end
