@@ -41,6 +41,7 @@ packer.init {
 
 require('user.plugins.settings.treesitter')
 require('user.plugins.settings.leap')
+require('user.plugins.settings.lean')
 
 -- Install your plugins here
 return packer.startup(function(use)
@@ -73,6 +74,9 @@ return packer.startup(function(use)
   -- LSP
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
+
+  -- Lean
+  use "Julian/lean.nvim"
 
   -- Treesitter
   use {"nvim-treesitter/nvim-treesitter", run=':TSUpdate'}
