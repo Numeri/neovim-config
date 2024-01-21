@@ -24,7 +24,7 @@ m.setup({
     },
 
     styles = { -- Give comments style such as bold, italic, underline etc.
-        comments = { --[[ italic = true ]] },
+        comments = { italic = true },
         strings = { --[[ bold = true ]] },
         keywords = { --[[ underline = true ]] },
         functions = { --[[ bold = true, undercurl = true ]] },

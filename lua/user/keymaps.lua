@@ -89,6 +89,20 @@ end
 
 keymap('n', '<leader>s', ':lua ScrollToRandomLine()<CR>', { noremap = true, silent = true })
 
+function BidirectionalLeap()
+  local current_window = vim.fn.win_getid()
+  require('leap').leap { target_windows = { current_window }, inclusive_op = true }
+end
+
+vim.keymap.set({'n', 'v', 'x', 'o'}, 's', BidirectionalLeap)
+
+-- Insert --
+keymap('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+  expr = true,
+  replace_keycodes = false
+})
+vim.g.copilot_no_tab_map = true
+
 -- Visual --
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)

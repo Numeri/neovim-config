@@ -54,6 +54,8 @@ return packer.startup(function(use)
   use "tpope/vim-dispatch" -- Makes testing and compiling with :Make and :Dispatch better
   use "itchyny/vim-qfedit"
 
+  use "github/copilot.vim"
+
   -- Colorschemes
   use "marko-cerovac/material.nvim"
 
@@ -65,7 +67,6 @@ return packer.startup(function(use)
   use "saadparwaiz1/cmp_luasnip" -- snippet completions
   use "lukas-reineke/cmp-under-comparator" -- make underscored suggestions come last in the list
   use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-nvim-lua"
 
   -- snippets
   use "L3MON4D3/LuaSnip" --snippet engine
@@ -77,6 +78,9 @@ return packer.startup(function(use)
 
   -- Lean
   use "Julian/lean.nvim"
+
+  -- Jupyter
+  use "benlubas/molten-nvim"
 
   -- Treesitter
   use {"nvim-treesitter/nvim-treesitter", run=':TSUpdate'}
