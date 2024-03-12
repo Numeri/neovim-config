@@ -46,6 +46,19 @@ keymap("n", "<leader>c", ":noh<CR>", opts)
 -- Jump straight to mark
 keymap("n", "<leader>'", "`", opts)
 
+-- Autocomplete across buffers
+local function complete_with_k()
+  vim.opt.complete:append("k")
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n", true)
+  -- Remove 'k' from 'complete' option after a short delay to ensure it's removed after the completion is done
+  vim.defer_fn(function()
+    vim.opt.complete:remove("k")
+  end, 0)
+end
+
+keymap('i', '<C-b>', '', { noremap = true, callback = complete_with_k })
+
+
 function ModifyQuickFixList()
     if vim.opt.modifiable then
         vim.cmd "cgetbuffer"
