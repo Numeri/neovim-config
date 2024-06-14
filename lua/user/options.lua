@@ -42,6 +42,6 @@ vim.cmd [[set formatoptions-=o]]
 
 vim.cmd "packadd cfilter"
 if vim.fn.executable('rg') then
-    vim.api.nvim_set_option('grepprg', 'rg --vimgrep --smart-case --hidden')
-    vim.api.nvim_set_option('grepformat', '%f:%l:%c:%m')
+    vim.api.nvim_set_option_value('grepprg', 'rg --vimgrep --smart-case --hidden', {scope = 'global'})
+    vim.api.nvim_set_option_value('grepformat', '%f:%l:%c:%m', {scope = 'global'})
 end

@@ -68,15 +68,15 @@ M.on_attach = function(server)
     local on_attach_closure = function(client, bufnr)
         lsp_keymaps(bufnr)
 
-        if server == "pylsp" then
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.hoverProvider = false
-            -- client.server_capabilities.renameProvider = false
-            -- client.server_capabilities.definitionProvider = false
-            -- client.server_capabilities.referenceProvider = false
-        -- elseif server == "pyright" then
-            -- client.server_capabilities.signatureHelpProvider = false
-        end
+        -- if server == "pylsp" then
+        --     client.server_capabilities.documentFormattingProvider = false
+        --     client.server_capabilities.hoverProvider = false
+        --     client.server_capabilities.renameProvider = false
+        --     client.server_capabilities.definitionProvider = false
+        --     client.server_capabilities.referenceProvider = false
+        --  elseif server == "pyright" then
+        --     client.server_capabilities.signatureHelpProvider = false
+        -- end
     end
     return on_attach_closure
 end
