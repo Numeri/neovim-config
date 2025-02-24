@@ -109,12 +109,75 @@ end
 
 vim.keymap.set({'n', 'v', 'x', 'o'}, 's', BidirectionalLeap)
 
+-- Opens the current file (and selected lines, if in visual mode)
+-- in GitHub, at the current branch.
+function OpenInGitHub()
+  -- Get the remote URL from git.
+  local remote = vim.fn.systemlist('git remote get-url origin')[1]
+  if not remote or remote == '' then
+    print('No remote found')
+    return
+  end
+
+  -- Convert SSH URL to HTTPS.
+  -- Replaces "git@github.com:" with "https://github.com/"
+  remote = remote:gsub("git@([^:]+):", "https://%1/")
+           :gsub('%.git$', '')  -- Remove trailing ".git"
+
+  -- Get the current branch.
+  local branch = vim.fn.systemlist('git rev-parse --abbrev-ref HEAD')[1]
+  if not branch or branch == '' then
+    print('No branch found')
+    return
+  end
+
+  -- Get the absolute path of the current file.
+  local file = vim.fn.expand('%:p')
+
+  -- Get the Git repository's top-level directory.
+  local git_root = vim.fn.systemlist('git rev-parse --show-toplevel')[1]
+  if git_root and git_root ~= '' then
+    -- Make file path relative to the Git root.
+    file = file:gsub('^' .. git_root .. '/', '')
+  else
+    print('Not in a Git repository?')
+    return
+  end
+
+  -- Build the basic GitHub URL.
+  local url = remote .. '/blob/' .. branch .. '/' .. file
+
+  -- Depending on mode, add a line fragment.
+  local mode = vim.fn.mode()
+  if mode == 'v' or mode == 'V' or mode == '\022' then  -- \022 is CTRL-V block mode.
+    local start_line = vim.fn.line("'<")
+    local end_line = vim.fn.line("'>")
+    url = url .. '#L' .. start_line .. '-L' .. end_line
+  else
+    local line = vim.fn.line('.')
+    url = url .. '#L' .. line
+  end
+
+  -- Display the URL for debugging.
+  print("Opening " .. url)
+
+  -- Use vim.fn.jobstart to open the URL asynchronously.
+  vim.fn.jobstart({ "xdg-open", url }, { detach = true })
+end
+
+keymap('n', '<leader>w', ':lua OpenInGitHub()<CR>', { noremap = true, silent = true })
+keymap('v', '<leader>w', ':lua OpenInGitHub()<CR>', { noremap = true, silent = true })
+keymap('x', '<leader>w', ':lua OpenInGitHub()<CR>', { noremap = true, silent = true })
+
 -- Insert --
-keymap('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+keymap('i', 'öl', 'copilot#Accept("")', {
   expr = true,
   replace_keycodes = false
 })
 vim.g.copilot_no_tab_map = true
+keymap('i', 'ök', '<Plug>(copilot-previous)', opts)
+keymap('i', 'öj', '<Plug>(copilot-next)', opts)
+keymap('i', 'öö', '<Plug>(copilot-suggest)', opts)
 
 -- Visual --
 -- Stay in indent mode
